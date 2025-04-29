@@ -1,0 +1,15 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Temperature1</h1>
+<input type="text" @bind="temp1.Fahrenheit" />
+<div>@temp1.Fahrenheit</div>
+
+<h1>Temperature2</h1>
+<input type="text" @oninput="TemperatureChange" value="@temp2.Fahrenheit"/>
+<div>@temp2.Fahrenheit</div>
+
+<h1>Temperature3</h1>
+<input type="text" @bind="temp3.Fahrenheit"/>
+<div>@temp3.Fahrenheit</div>

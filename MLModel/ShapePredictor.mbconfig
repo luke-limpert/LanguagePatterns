@@ -1,0 +1,347 @@
+﻿{
+  "Scenario": "Classification",
+  "DataSource": {
+    "Version": 3,
+    "EscapeCharacter": "\"",
+    "ReadMultiLines": false,
+    "KeepDiacritics": false,
+    "KeepPunctuations": false,
+    "AllowQuoting": false,
+    "Type": "TabularFile",
+    "FilePath": "D:\\Language Agnostic Patterns\\MLModel\\Data\\Shapes.csv",
+    "Delimiter": ",",
+    "DecimalMarker": ".",
+    "HasHeader": true,
+    "ColumnProperties": [
+      {
+        "ColumnName": "Shape",
+        "ColumnPurpose": "Label",
+        "ColumnDataFormat": "String",
+        "IsCategorical": true,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "Edges",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "Length",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "Width",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      }
+    ]
+  },
+  "Environment": {
+    "Type": "LocalCPU",
+    "Version": 1
+  },
+  "RunHistory": {
+    "Version": 3,
+    "Type": "Result",
+    "Trials": [
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "FastTreeOva",
+        "Score": 0.0,
+        "RuntimeInSeconds": 0.443,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2 * e3 * e6",
+          "e0": {
+            "OutputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ],
+            "InputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ]
+          },
+          "e1": {
+            "InputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ],
+            "OutputColumnName": "Features"
+          },
+          "e2": {
+            "OutputColumnName": "Shape",
+            "InputColumnName": "Shape",
+            "AddKeyValueAnnotationsAsText": false
+          },
+          "e3": {
+            "NumberOfLeaves": 4,
+            "MinimumExampleCountPerLeaf": 20,
+            "NumberOfTrees": 4,
+            "MaximumBinCountPerFeature": 254,
+            "FeatureFraction": 1.0,
+            "LearningRate": 0.099999999999999978,
+            "LabelColumnName": "Shape",
+            "FeatureColumnName": "Features",
+            "DiskTranspose": false
+          },
+          "e6": {
+            "OutputColumnName": "PredictedLabel",
+            "InputColumnName": "PredictedLabel"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "FastTreeOva",
+        "Score": 0.0,
+        "RuntimeInSeconds": 0.311,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2 * e3 * e6",
+          "e0": {
+            "OutputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ],
+            "InputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ]
+          },
+          "e1": {
+            "InputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ],
+            "OutputColumnName": "Features"
+          },
+          "e2": {
+            "OutputColumnName": "Shape",
+            "InputColumnName": "Shape",
+            "AddKeyValueAnnotationsAsText": false
+          },
+          "e3": {
+            "NumberOfLeaves": 7,
+            "MinimumExampleCountPerLeaf": 20,
+            "NumberOfTrees": 6,
+            "MaximumBinCountPerFeature": 231,
+            "FeatureFraction": 0.99999999,
+            "LearningRate": 0.10363565282403447,
+            "LabelColumnName": "Shape",
+            "FeatureColumnName": "Features",
+            "DiskTranspose": false
+          },
+          "e6": {
+            "OutputColumnName": "PredictedLabel",
+            "InputColumnName": "PredictedLabel"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "LightGbmMulti",
+        "Score": 0.0,
+        "RuntimeInSeconds": 0.051,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2 * e5 * e6",
+          "e0": {
+            "OutputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ],
+            "InputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ]
+          },
+          "e1": {
+            "InputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ],
+            "OutputColumnName": "Features"
+          },
+          "e2": {
+            "OutputColumnName": "Shape",
+            "InputColumnName": "Shape",
+            "AddKeyValueAnnotationsAsText": false
+          },
+          "e5": {
+            "NumberOfLeaves": 4,
+            "MinimumExampleCountPerLeaf": 20,
+            "LearningRate": 1.0,
+            "NumberOfTrees": 4,
+            "SubsampleFraction": 1.0,
+            "MaximumBinCountPerFeature": 254,
+            "FeatureFraction": 1.0,
+            "L1Regularization": 2E-10,
+            "L2Regularization": 1.0,
+            "LabelColumnName": "Shape",
+            "FeatureColumnName": "Features"
+          },
+          "e6": {
+            "OutputColumnName": "PredictedLabel",
+            "InputColumnName": "PredictedLabel"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "FastTreeOva",
+        "Score": 0.0,
+        "RuntimeInSeconds": 0.382,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2 * e3 * e6",
+          "e0": {
+            "OutputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ],
+            "InputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ]
+          },
+          "e1": {
+            "InputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ],
+            "OutputColumnName": "Features"
+          },
+          "e2": {
+            "OutputColumnName": "Shape",
+            "InputColumnName": "Shape",
+            "AddKeyValueAnnotationsAsText": false
+          },
+          "e3": {
+            "NumberOfLeaves": 4,
+            "MinimumExampleCountPerLeaf": 19,
+            "NumberOfTrees": 4,
+            "MaximumBinCountPerFeature": 278,
+            "FeatureFraction": 0.95437028438000893,
+            "LearningRate": 0.096491889880591986,
+            "LabelColumnName": "Shape",
+            "FeatureColumnName": "Features",
+            "DiskTranspose": false
+          },
+          "e6": {
+            "OutputColumnName": "PredictedLabel",
+            "InputColumnName": "PredictedLabel"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "LightGbmMulti",
+        "Score": 0.0,
+        "RuntimeInSeconds": 0.016,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2 * e5 * e6",
+          "e0": {
+            "OutputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ],
+            "InputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ]
+          },
+          "e1": {
+            "InputColumnNames": [
+              "Edges",
+              "Length",
+              "Width"
+            ],
+            "OutputColumnName": "Features"
+          },
+          "e2": {
+            "OutputColumnName": "Shape",
+            "InputColumnName": "Shape",
+            "AddKeyValueAnnotationsAsText": false
+          },
+          "e5": {
+            "NumberOfLeaves": 4,
+            "MinimumExampleCountPerLeaf": 21,
+            "LearningRate": 0.25773151734345362,
+            "NumberOfTrees": 687,
+            "SubsampleFraction": 0.5420845982271304,
+            "MaximumBinCountPerFeature": 343,
+            "FeatureFraction": 0.99671834799493142,
+            "L1Regularization": 2E-10,
+            "L2Regularization": 0.99999977667298645,
+            "LabelColumnName": "Shape",
+            "FeatureColumnName": "Features"
+          },
+          "e6": {
+            "OutputColumnName": "PredictedLabel",
+            "InputColumnName": "PredictedLabel"
+          }
+        }
+      }
+    ],
+    "Estimators": {
+      "e0": "ReplaceMissingValues",
+      "e1": "Concatenate",
+      "e2": "MapValueToKey",
+      "e3": "FastTreeOva",
+      "e4": "FastForestOva",
+      "e5": "LightGbmMulti",
+      "e6": "MapKeyToValue"
+    },
+    "Schema": "e0 * e1 * e2 * (e3 + e4 + e5) * e6",
+    "MetricName": "MicroAccuracy",
+    "ModelFilePath": "D:\\Language Agnostic Patterns\\MLModel\\ShapePredictor.mlnet"
+  },
+  "Type": "TrainingConfig",
+  "Version": 5,
+  "TrainingOption": {
+    "Version": 2,
+    "Subsampling": false,
+    "Tuner": "eci-cfo",
+    "Type": "ClassificationTrainingOption",
+    "TrainingTime": 100,
+    "OptimizeMetric": "MicroAccuracy",
+    "LabelColumn": "Shape",
+    "AvailableTrainers": [
+      "LGBM",
+      "FASTTREE",
+      "FASTFOREST"
+    ],
+    "ValidationOption": {
+      "Version": 0,
+      "Type": "TrainValidateSplitValidationOption",
+      "SplitRatio": 0.2
+    }
+  }
+}

@@ -1,0 +1,319 @@
+#!meta
+
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp"},{"name":"fsharp","languageName":"F#","aliases":["f#","fs"]},{"name":"html","languageName":"HTML"},{"name":"http","languageName":"HTTP"},{"name":"javascript","languageName":"JavaScript","aliases":["js"]},{"name":"mermaid","languageName":"Mermaid"},{"name":"pwsh","languageName":"PowerShell","aliases":["powershell"]},{"name":"value"}]}}
+
+#!markdown
+
+# Agnostic Language Patterns
+
+#!markdown
+
+### Referenced Docs
+https://learn.microsoft.com/en-us/dotnet/fsharp/style-guide/conventions
+
+#!csharp
+
+#r "./InteropTypes/bin/Debug/net9.0/InteropTypes.dll"
+using InteropTypes;
+
+Shape shape = new(4);
+
+#!markdown
+
+* Pros: 
+    * 1 constructor that takes in a number of edges
+    * Immutable
+* Cons: 
+    * Standard C# Empty constructor conventions cannot be created
+    * Not agnostic to standard mutability
+
+In my opinion this is always going to be the main hold out of using an immutable language and designing for use in a C# environment. Standard practice in C# is to use an objects mutability. 
+
+In C# it is common practice to generate the following object:
+
+#!csharp
+
+public class ShapeCSharp
+{
+    public int Edges {get; set;}
+    public ShapeCSharp() {}
+    public ShapeCSharp(int edges)
+    {
+        Edges = edges;
+    }
+}
+
+ShapeCSharp shape2 = new();
+shape2.Edges = 4;
+
+#!markdown
+
+You could even go further and wrap the F# type:
+
+#!csharp
+
+public class ShapeCSharpWrapped
+{
+    public int Edges {get; set;}
+    public ShapeCSharpWrapped() {}
+    public ShapeCSharpWrapped(int edges)
+    {
+        Edges = edges;
+    }
+    public ShapeCSharpWrapped(Shape shape)
+    {
+        Edges = shape.Edges;
+    }
+}
+
+ShapeCSharpWrapped shape3 = new(shape);
+Console.WriteLine(shape3.Edges)
+
+#!markdown
+
+There is a way to create an F# object with an empty constructor. Let me show you that now. 
+
+#!csharp
+
+ShapeWithExtraConstructor shape4 = new();
+shape4.Edges = 4;
+ShapeWithExtraConstructor shape5 = new(4);
+
+#!fsharp
+
+#r "./InteropTypes/bin/Debug/net9.0/InteropTypes.dll"
+open InteropTypes
+
+let shape : ShapeWithExtraConstructor = ShapeWithExtraConstructor()
+
+#!fsharp
+
+shape
+
+#!fsharp
+
+let shape : ShapeWithExtraConstructor = ShapeWithExtraConstructor(4)
+
+#!fsharp
+
+shape
+
+#!markdown
+
+Standard conventions for this would have been: 
+
+let shape : ShapeWithExtraConstructor = 
+    { 
+        Edges = 4
+    }
+
+Personally though I think constructors in F# can simplify some operations.
+
+#!fsharp
+
+// Example
+let edgeArray = [|4; 5; 6|]
+edgeArray
+|> Array.map ShapeWithExtraConstructor
+
+#!markdown
+
+The shape type becomes a functional construct that can operator on each part of the array. Now, lets add some slight complexity...
+
+#!fsharp
+
+// Example
+let shape1 = 
+    {
+        Edges = 4
+    }
+let shape2 = 
+    {
+        Edges = 5
+    }
+let shape3 = 
+    {
+        Edges = 6
+    }
+    
+let edgeArray = [|shape1; shape2; shape3|]
+
+edgeArray
+|> Array.map ShapeWithExtraConstructor
+
+#!markdown
+
+Creating a constructor that maps the "Shape" type to the "ShapeWithExtraConstructor" becomes a bit more trivial. Across C# and F# constructor members can provide a lot of value and make the code easier to implement in C# by allowing them to adhere to traditional conventions. 
+
+#!markdown
+
+As outlined in the reference document above, namespaces should be used as opposed to Modules, otherwise they become a static class in C#. 
+
+A Static class is things like String.Join, or Double.Parse. They are classes that are used to handle responsibilities in the type. 
+
+So, again lets expand and see the implementation. 
+
+#!csharp
+
+using static InteropTypes.RightTriangle;
+
+#!csharp
+
+RightTriangle.convertToShape(3, 4)
+
+#!markdown
+
+In a C# notation that looks like the following: 
+
+#!csharp
+
+public static class RightTriangleCSharp
+{
+    private static double Area(double length, double height)
+    {
+        return (0.5 * length * height); 
+    }
+    public static ExpandedShape ConvertToShape(double length, double height)
+    {
+        return new ExpandedShape(3, Area(length, height), "Triangle");
+    }
+}
+
+#!csharp
+
+var x = RightTriangleCSharp.ConvertToShape(3, 4);
+x
+
+#!markdown
+
+This is probably an acceptable convention for things like CsvConversion, or DatabaseAccess, but gets a bit messy when nested. 
+
+For example take a look at ShippingRoute Namespace
+
+#!csharp
+
+using static InteropTypes.ShippingRoute.Location;
+
+var position1 = new Position(0, 1);
+var position2 = new Position(1, 2);
+
+var distance = GetDistance(position1, position2);
+
+Console.WriteLine(distance);
+
+#!fsharp
+
+open InteropTypes.ShippingRoute
+
+let position1 : Location.Position = 
+    {
+        Longitude = 0
+        Latitude = 1
+    }
+
+let position2 : Location.Position = 
+    {
+        Longitude = 1
+        Latitude = 2
+    }
+
+let distance = Location.GetDistance(position1, position2)
+distance
+
+#!markdown
+
+I would argue that the F# Implementation looks pretty nice honestly. It would be a bit easier in C# if you didn't need to open a static library though, so the small consideration here is to place types and modules in a namespace, and no types in the module. 
+
+#!csharp
+
+using InteropTypes.ShippingRoute2;
+
+var position1 = new Position2(0, 1);
+var position2 = new Position2(1, 2);
+
+var distance = Location2.GetDistance(position1, position2);
+
+Console.WriteLine(distance);
+
+#!markdown
+
+I feel like this keeps the appropriate division of responsibilities - The static type taking in the positions and spitting out the distance between the 2 locations, and the position type being outside the module to allow it to be accessed for other functions. 
+
+#!markdown
+
+## Dependency injection
+
+Dependency injection is a big part of the C# paradigm for Web development. It goes a bit like this:
+
+builder.Services.AddTransient(IServiceName, ServiceName) 
+
+Where all objects constructed with IServiceName are given that service for usage. So,
+
+#!csharp
+
+private readonly SomeSortaService _service;
+public DoSomethingOrAnother(IServiceName service)
+{
+    _service = service;
+}
+public SomeImportantType GetSomethingImportant(int index) => _service.GetTheImportantThing(index);
+
+#!markdown
+
+With the way that F# is currently being constructed it isn't conducive to dependency injection. 
+
+Basically the route would be to take the F#, place it into ServiceName, perform the functions, create an interface referencing the method names in ServiceName, then inject it. 
+
+I think we can circumvent a lot of steps by simply make F# injectable. 
+
+#!csharp
+
+#r "nuget: Microsoft.Extensions.DependencyInjection, 10.0.0-preview.3.25171.5"
+using Microsoft.Extensions.DependencyInjection;
+
+#!csharp
+
+using MyApp.Services;
+
+var serviceProvider = new ServiceCollection()
+    .AddTransient<IShape, MyApp.Services.Shape>()
+    .BuildServiceProvider();
+
+var shape = serviceProvider.GetService<IShape>();
+var result = shape.Area(3, 3);
+result
+
+#!markdown
+
+This circumvents a lot of development time setting up dependency injection for F# code and I think it sets up a consistent pattern practice that is more readable. 
+
+#!markdown
+
+The next part is an example where these patterns were useful. One uses ML.NET, the other is a typeconverter to enable usage of the type on the front end. 
+
+#!csharp
+
+using InteropTypes.MLScaffold;
+using MLModel;
+#r "nuget: Microsoft.ML.DataView, 4.0.2"
+#r "nuget: Microsoft.ML.FastTree, 4.0.2"
+
+#!csharp
+
+Model model = new();
+
+#!csharp
+
+model.LoadModel("./MLModel/ShapePredictor.mlnet")
+
+#!csharp
+
+var input = DataInput.CreateShapePredictorInput(new MLModel.ShapePredictor.ModelInput() { Edges = 3, Length = 3, Width = 3});
+
+#!csharp
+
+var output = model.Predict(input);
+
+#!csharp
+
+output

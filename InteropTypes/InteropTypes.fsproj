@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Library.fs" />
+    <Compile Include="ShippingRoute.fs" />
+    <Compile Include="DependencyInjection.fs" />
+    <Compile Include="Converter.fs" />
+    <Compile Include="Temperature1.fs" />
+    <Compile Include="Temperature2.fs" />
+    <Compile Include="Temperature3.fs" />
+    <Compile Include="MLScaffold.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ML" Version="4.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MLModel\MLModel.csproj" />
+  </ItemGroup>
+
+</Project>
