@@ -71,7 +71,7 @@ Console.WriteLine(shape3.Edges)
 
 #!markdown
 
-There is a way to create an F# object with an empty constructor. Let me show you that now. 
+There is a way to create an F# object with an empty constructor. Let me show you that now. (Reference InteropTypes Library)
 
 #!csharp
 
@@ -317,3 +317,92 @@ var output = model.Predict(input);
 #!csharp
 
 output
+
+#!markdown
+
+## Python / F# interop
+
+#!fsharp
+
+type ApiShape = 
+    {
+        Shape: string
+        Edges: int
+        Length: int
+        Width: int
+    }
+
+#r "nuget: System.Net.Http"
+#r "nuget: System.Text.Json"
+
+open System
+open System.Net.Http
+open System.Text.Json
+open System.Text.Json.Serialization
+
+let getShapesFromApi(url: string) = async {
+    use client = new HttpClient()
+    let! response = client.GetAsync(url) |> Async.AwaitTask
+
+    if response.IsSuccessStatusCode then
+        let! json = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+        let options = JsonSerializerOptions()
+        options.PropertyNameCaseInsensitive <- true
+        let shape = JsonSerializer.Deserialize<ApiShape[]>(json, options)
+        return Some shape
+    else
+        printfn "Failed"
+        return None
+}
+
+#!fsharp
+
+let result = getShapesFromApi("http://localhost:8000/get-data") |> Async.RunSynchronously
+
+#!fsharp
+
+result
+
+#!fsharp
+
+type ShapeInput = {
+    edges: int
+    length: float
+    height: float
+}
+
+type PredictionResponse = {
+    predicted_shape: string
+}
+
+#!fsharp
+
+let predictShape (input: ShapeInput) = async {
+    let client = new HttpClient()
+    let url = "http://127.0.0.1:8000/predict"
+
+    let options = JsonSerializerOptions()
+    options.PropertyNamingPolicy <- JsonNamingPolicy.CamelCase
+    options.PropertyNameCaseInsensitive <- true
+
+    // Serialize the input to JSON
+    let json = JsonSerializer.Serialize(input, options)
+    let content = new StringContent(json, Encoding.UTF8, "application/json")
+
+    let! response = client.PostAsync(url, content) |> Async.AwaitTask
+    if response.IsSuccessStatusCode then
+        let! body = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+        let prediction = JsonSerializer.Deserialize<PredictionResponse>(body, options)
+        return Some prediction
+    else
+        printfn "Error: %s" response.ReasonPhrase
+        return None
+}
+
+#!fsharp
+
+let input = { edges = 4; length = 7.0; height = 7.0 }
+let result = predictShape input |> Async.RunSynchronously
+match result with
+| Some prediction -> printfn "Predicted shape: %s" prediction.predicted_shape
+| None -> printfn "Failed to get prediction."

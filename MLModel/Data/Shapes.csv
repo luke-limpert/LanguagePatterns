@@ -2,6 +2,8 @@ Shape,Edges,Length,Width
 Triangle,3,3,3
 Trapezoid,4,5,3
 Square,4,4,4
+Square,4,6,6
+Square,4,8,8
 Diamond,4,2,6
 Rectangle,4,6,2
 Pentagon,5,5,5
