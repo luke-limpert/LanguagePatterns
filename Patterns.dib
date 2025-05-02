@@ -13,12 +13,14 @@ https://learn.microsoft.com/en-us/dotnet/fsharp/style-guide/conventions
 
 https://www.microsoftpressstore.com/articles/article.aspx?p=2224057&seqNum=2
 
+https://blog.postman.com/how-to-build-an-api-in-python/
+
 #!csharp
 
 #r "./InteropTypes/bin/Debug/net9.0/InteropTypes.dll"
 using InteropTypes;
 
-Shape shape = new(4);
+InteropTypes.Shape shape = new(4);
 
 #!markdown
 
@@ -169,6 +171,23 @@ let edgeArray = [|shape1; shape2; shape3|]
 
 edgeArray
 |> Array.map ShapeWithExtraConstructor
+
+#!fsharp
+
+type City = 
+    {
+        Name: string
+        Area: double
+    }
+
+type Country() = 
+    {
+        member val Cities = [] with get; set
+        new(cities: List<City>) as this = 
+            Country()
+            then this.Cities <- cities
+        member this.Area = this.Cities |> List.sumBy(fun city -> city.Area)
+    }
 
 #!markdown
 
@@ -447,3 +466,104 @@ using SadCoR;
 Record record = new("Luke", 32, 190, 71);
 Console.WriteLine(RecordManager.ChainOfResponsibility(record));
 RecordManager.CompareHeights(new("ShortLuke", 14, 92, 60))
+
+#!markdown
+
+## PYSharp
+
+#!fsharp
+
+let data = [| 1; 2; 3; 4; 5 |]
+
+let result = data |> Array.map (fun x -> x * x) |> Array.sum
+
+printfn "%d" result 
+
+#!markdown
+
+More... 
+
+#!fsharp
+
+type Shape = 
+  { Edges: int
+    Length: float
+    Width: float }
+
+let shapes = 
+    [| { Edges = 3; Length = 10.0; Width = 5.0 }
+       { Edges = 4; Length = 6.0; Width = 4.0 }
+       { Edges = 5; Length = 2.5; Width = 3.0 } |]
+
+let areas = 
+    shapes 
+    |> Array.map (fun s -> s.Length * s.Width)
+
+areas
+|> Array.iteri (fun i area ->
+    printfn $"Shape %d{i} - Edges: %d{shapes[i].Edges}, Area: %f{area}")
+
+#!fsharp
+
+// Alternative using a list the same as the F#
+type Shape = 
+    { 
+        Edges: int
+        Length: float
+        Width: float 
+    } with 
+        member this.Area = 
+            this.Length * this.Width
+
+let shapes = 
+    [ 
+        { Edges = 3; Length = 10.0; Width = 5.0 }
+        { Edges = 4; Length = 6.0; Width = 4.0 }
+        { Edges = 5; Length = 2.5; Width = 3.0 } 
+    ]
+
+let areas = 
+    shapes 
+    |> List.map (fun s -> s.Area)
+
+let area_array = areas |> List.toArray
+
+area_array
+|> Array.iteri (fun i area ->
+    printfn $"Shape %d{i} - Edges: %d{shapes[i].Edges}, Area: %f{area}")
+
+#!markdown
+
+Even closer to agnostic... 
+
+#!fsharp
+
+// Alternative using a list the same as the F#
+type Shape() = 
+        member val Edges = 0 with get, set
+        member val Length = 0.0 with get, set
+        member val Width = 0.0 with get, set
+        member this.Area = this.Length * this.Width
+        new(edges:int, length: double, width: double) as this = 
+            Shape()
+            then 
+                this.Edges <- edges
+                this.Length <- length
+                this.Width <- width
+
+
+let shapes: List<Shape> = [ 
+        Shape(edges = 3, length = 10.0, width = 5.0)
+        Shape(edges = 4, length = 6.0, width = 4.0)
+        Shape(edges = 5, length = 2.5, width = 3.0)
+    ]
+
+let areas = 
+    shapes 
+    |> List.map (fun s -> s.Area)
+
+let area_array = areas |> List.toArray
+
+area_array
+|> Array.iteri (fun i area ->
+    printfn $"Shape %d{i} - Edges: %d{shapes[i].Edges}, Area: %f{area}")

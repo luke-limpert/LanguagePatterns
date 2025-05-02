@@ -12,6 +12,7 @@ module Location =
 
 namespace InteropTypes.ShippingRoute2
 
+
 type Position2 = 
     {
         Longitude: double

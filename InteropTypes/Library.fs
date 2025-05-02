@@ -14,6 +14,7 @@ type ShapeWithExtraConstructor() =
         ShapeWithExtraConstructor()
         then this.Edges <- shape.Edges
 
+
 type ExpandedShape = 
     {
         Edges: int

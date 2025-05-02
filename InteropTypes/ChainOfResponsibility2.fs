@@ -15,7 +15,6 @@ type Record2 =
     new(name: string, age: int, weight: float, height: float) = 
         {name = name; age = age; weight = weight; height = height * 1.0<inch>;}
 
-
 module RecordManager2 = 
 // Chain of responsibility pattern
     // function to check that the age is between 18 and 65
