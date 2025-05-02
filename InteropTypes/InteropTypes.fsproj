@@ -14,6 +14,8 @@
     <Compile Include="Temperature2.fs" />
     <Compile Include="Temperature3.fs" />
     <Compile Include="MLScaffold.fs" />
+    <Compile Include="ChainOfResponsibility.fs" />
+    <Compile Include="ChainOfResponsibility2.fs" />
   </ItemGroup>
 
   <ItemGroup>

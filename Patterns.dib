@@ -11,6 +11,8 @@
 ### Referenced Docs
 https://learn.microsoft.com/en-us/dotnet/fsharp/style-guide/conventions
 
+https://www.microsoftpressstore.com/articles/article.aspx?p=2224057&seqNum=2
+
 #!csharp
 
 #r "./InteropTypes/bin/Debug/net9.0/InteropTypes.dll"
@@ -76,8 +78,35 @@ There is a way to create an F# object with an empty constructor. Let me show you
 #!csharp
 
 ShapeWithExtraConstructor shape4 = new();
-shape4.Edges = 4;
 ShapeWithExtraConstructor shape5 = new(4);
+
+#!csharp
+
+shape5
+
+#!markdown
+
+These objects are unfortunately turned mutable in the process.
+
+#!csharp
+
+shape5.Edges = 14;
+
+#!csharp
+
+shape5
+
+#!markdown
+
+There is a slightly more complex pattern with more boilerplate to maintain immutability though. 
+
+#!csharp
+
+HappyCoR.Record2 records = new("Luke",32,190,71);
+
+#!csharp
+
+records.Name = "Jim";
 
 #!fsharp
 
@@ -123,7 +152,7 @@ The shape type becomes a functional construct that can operator on each part of 
 #!fsharp
 
 // Example
-let shape1 = 
+let shape1 : Shape = 
     {
         Edges = 4
     }
@@ -203,21 +232,21 @@ Console.WriteLine(distance);
 
 #!fsharp
 
-open InteropTypes.ShippingRoute
+open InteropTypes.ShippingRoute.Location
 
-let position1 : Location.Position = 
+let position1 : Position = 
     {
         Longitude = 0
         Latitude = 1
     }
 
-let position2 : Location.Position = 
+let position2 : Position = 
     {
         Longitude = 1
         Latitude = 2
     }
 
-let distance = Location.GetDistance(position1, position2)
+let distance = GetDistance(position1, position2)
 distance
 
 #!markdown
@@ -406,3 +435,15 @@ let result = predictShape input |> Async.RunSynchronously
 match result with
 | Some prediction -> printfn "Predicted shape: %s" prediction.predicted_shape
 | None -> printfn "Failed to get prediction."
+
+#!markdown
+
+## Input Validation
+
+#!csharp
+
+using SadCoR;
+
+Record record = new("Luke", 32, 190, 71);
+Console.WriteLine(RecordManager.ChainOfResponsibility(record));
+RecordManager.CompareHeights(new("ShortLuke", 14, 92, 60))
