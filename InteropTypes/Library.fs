@@ -3,7 +3,11 @@
 type Shape =
     {
         Edges : int
-    }
+    } with
+        static member Create(edges: int) = 
+            { Edges = edges }
+        static member Create(shape: Shape) = 
+            shape
 
 type ShapeWithExtraConstructor() = 
     member val Edges = 0 with get, set
