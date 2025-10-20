@@ -13,7 +13,7 @@ type Record = {
 module RecordManager = 
 // Chain of responsibility pattern
     // function to check that the age is between 18 and 65
-    let private validAge record =
+    let private validAge (record: Record): bool =
         record.Age < 65 && record.Age > 18
 
     // function to check that the weight is less than 200

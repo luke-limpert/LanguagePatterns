@@ -6,3 +6,13 @@
 /InteropTypes/obj
 /InteropTypes/bin
 /InteropTypes/.vs
+/ShapeApp/BlazorShape/bin
+/ShapeApp/BlazorShape/obj
+/ShapeApp/ShapeCore/obj
+/ShapeApp/ShapeCore/bin
+/ShapeApp/ShapeApi.Client/ShapeApi.Client/obj
+/ShapeApp/ShapeApi.Client/ShapeApi.Client/bin
+/ShapeApp/BlazorShape/.vs
+/ShapeApi/bin
+/ShapeApi/obj
+/.vscode

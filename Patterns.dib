@@ -181,13 +181,11 @@ type City =
     }
 
 type Country() = 
-    {
-        member val Cities = [] with get; set
-        new(cities: List<City>) as this = 
-            Country()
-            then this.Cities <- cities
-        member this.Area = this.Cities |> List.sumBy(fun city -> city.Area)
-    }
+    member val Cities = [] with get, set
+    member this.Area = this.Cities |> List.sumBy(fun city -> city.Area)
+    new(cities: List<City>) as this = 
+        Country()
+        then this.Cities <- cities
 
 #!markdown
 
