@@ -77,6 +77,19 @@ Console.WriteLine(shape3.Edges)
 
 There is a way to create an F# object with an empty constructor. Let me show you that now. (Reference InteropTypes Library)
 
+#!markdown
+
+```
+type ShapeWithExtraConstructor() = 
+    member val Edges = 0 with get, set
+    new(edges: int) as this = 
+        ShapeWithExtraConstructor()
+        then this.Edges <- edges
+    new(shape: Shape) as this = 
+        ShapeWithExtraConstructor()
+        then this.Edges <- shape.Edges
+```
+
 #!csharp
 
 ShapeWithExtraConstructor shape4 = new();

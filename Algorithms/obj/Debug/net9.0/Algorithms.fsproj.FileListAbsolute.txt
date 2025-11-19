@@ -1,0 +1,14 @@
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\bin\Debug\net9.0\Algorithms.deps.json
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\bin\Debug\net9.0\Algorithms.dll
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\bin\Debug\net9.0\Algorithms.pdb
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\bin\Debug\net9.0\Algorithms.xml
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\obj\Debug\net9.0\Algorithms.fsproj.AssemblyReference.cache
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\obj\Debug\net9.0\Algorithms.AssemblyInfoInputs.cache
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\obj\Debug\net9.0\Algorithms.AssemblyInfo.fs
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\obj\Debug\net9.0\Algorithms.fsproj.CoreCompileInputs.cache
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\obj\Debug\net9.0\Algorithms.sourcelink.json
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\obj\Debug\net9.0\Algorithms.dll
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\obj\Debug\net9.0\refint\Algorithms.dll
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\obj\Debug\net9.0\Algorithms.xml
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\obj\Debug\net9.0\Algorithms.pdb
+D:\Language Agnostic Patterns\LanguagePatterns\Algorithms\obj\Debug\net9.0\ref\Algorithms.dll
