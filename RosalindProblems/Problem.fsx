@@ -77,7 +77,7 @@ let computeGCContent (s : string) =
         |> Array.sumBy snd
     let numerator = 
         s.ToCharArray()
-        |> Array.filter(fun strand -> strand.Equals 'G' or strand.Equals 'C')
+        |> Array.filter(fun strand -> strand.Equals 'G' || strand.Equals 'C')
         |> Array.length
     float numerator / float denominator * 100.0
 

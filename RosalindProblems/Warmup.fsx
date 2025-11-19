@@ -64,3 +64,4 @@ let checkPalindrome (word : string) : bool =
 checkPalindrome palindrome
 checkPalindrome " Spectre of the Spire "
 checkPalindrome "traP    a For of Apart; "
+
